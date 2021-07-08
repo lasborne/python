@@ -1,0 +1,166 @@
+
+
+from kivy.config import Config
+Config.set("graphics", "multisamples", "0")
+import os
+os.environ["KIVY_GL_BACKEND"] = "angle_sdl2"
+Config.set("graphics", "width", "400")
+Config.set("graphics", "height", "500")
+
+import kivy
+from kivy.app import App
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.textinput import TextInput
+from kivy.uix.widget import Widget
+from kivy.uix.stacklayout import StackLayout
+from kivy.uix.button import Button
+from kivy.uix.label import Label
+from kivy.uix.relativelayout import RelativeLayout
+from kivy.uix.gridlayout import GridLayout
+from kivy.core.window import Window
+from kivy.lang.builder import Builder
+
+from kivy.properties import StringProperty, NumericProperty, ObjectProperty, OptionProperty, ListProperty
+from kivy.metrics import dp
+
+
+
+class MainWidget(Widget):
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        text = StringProperty("0")
+        ale = Label(text= "Scientific Calculator", size_hint= (None, None), size= (dp(400), dp(950)))
+        self.add_widget(ale)
+"""     
+        for i in range(0, 10):
+            nums = Button(text=f"{i}")
+            self.add_widget(nums)
+"""
+
+class Numbers(StackLayout):
+
+    orientation = "lr-bt"
+    i_list = []
+    btn = ObjectProperty()
+    char_list = ["log", "pi", "0", ".", "=", ")", "sin", "1", "2", "3", "+", "(", "cos", "4", "5", "6", "-", "int", "tan", "7", "8",
+                  "9", chr(247), "round", "mod", "sin'", "cos'", "tan'", "x", "del", chr(739) + "\u221A" + "n", "n" + chr(739), "\u00b2" + "\u221A" + "n",
+                  "n" + "\u00b2", "10" + chr(739), "e" + chr(739), "dms", "LOGnX", "C", "OFF", "1/n", "n!"]
+    btn_list = []
+    #l = NumericProperty()
+    btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btn10, btn11, btn12, btn13, btn14, btn15, btn16, btn17, btn18, btn19, btn20, btn21 = [None for _ in range(21)]
+    btn22, btn23, btn24, btn25, btn26, btn27, btn28, btn29, btn30, btn31, btn32, btn33, btn34, btn35, btn36, btn37, btn38, btn39, btn40, btn41, btn42 = [None for _ in range(21)]
+    n= StringProperty()
+    ev = ObjectProperty(0)
+    gh = ObjectProperty()
+    event = ObjectProperty(str(""))
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(**kwargs)
+        text1 = StringProperty("0")
+
+        inc = 200
+        self.create_buttons()
+        self.bind_buttons()
+
+        #self.button_text()
+
+        self.btn1, self.btn2, self.btn3, self.btn4, self.btn5, self.btn6, self.btn7, self.btn8, self.btn9, self.btn10, self.btn11, self.btn12, self.btn13, self.btn14, self.btn15, self.btn16, self.btn17, self.btn18, self.btn19, self.btn20, self.btn21 = self.btn_list[
+                                                                                                                                                                                                                                                            :21]
+        self.btn22, self.btn23, self.btn24, self.btn25, self.btn26, self.btn27, self.btn28, self.btn29, self.btn30, self.btn31, self.btn32, self.btn33, self.btn34, self.btn35, self.btn36, self.btn37, self.btn38, self.btn39, self.btn40, self.btn41, self.btn42 = self.btn_list[
+                                                                                                                                                                                                                                                                     21:]
+        print(self.btn6.text)
+        self.n = self.btn23.text
+        self.btn1.bind(on_press=lambda *args: self.get_num(self.btn1.text, *args))
+        self.btn2.bind(on_press=lambda *args: self.get_num(self.btn2.text, *args))
+        self.btn3.bind(on_press=lambda *args: self.get_num(self.btn3.text, *args))
+        self.btn4.bind(on_press=lambda *args: self.get_num(self.btn4.text, *args))
+        self.btn5.bind(on_press=lambda *args: self.get_num(self.btn5.text, *args))
+        self.btn6.bind(on_press=lambda *args: self.get_num(self.btn6.text, *args))
+        self.btn7.bind(on_press=lambda *args: self.get_num(self.btn7.text, *args))
+        self.btn8.bind(on_press=lambda *args: self.get_num(self.btn8.text, *args))
+        self.btn9.bind(on_press=lambda *args: self.get_num(self.btn9.text, *args))
+        self.btn10.bind(on_press=lambda *args: self.get_num(self.btn10.text, *args))
+        self.btn11.bind(on_press=lambda *args: self.get_num(self.btn11.text, *args))
+        self.btn12.bind(on_press=lambda *args: self.get_num(self.btn12.text, *args))
+        self.btn13.bind(on_press=lambda *args: self.get_num(self.btn13.text, *args))
+        self.btn14.bind(on_press=lambda *args: self.get_num(self.btn14.text, *args))
+        self.btn15.bind(on_press=lambda *args: self.get_num(self.btn15.text, *args))
+        self.btn16.bind(on_press=lambda *args: self.get_num(self.btn16.text, *args))
+        self.btn17.bind(on_press=lambda *args: self.get_num(self.btn17.text, *args))
+        self.btn18.bind(on_press=lambda *args: self.get_num(self.btn18.text, *args))
+        self.btn19.bind(on_press=lambda *args: self.get_num(self.btn19.text, *args))
+        self.btn20.bind(on_press=lambda *args: self.get_num(self.btn20.text, *args))
+        self.btn21.bind(on_press=lambda *args: self.get_num(self.btn21.text, *args))
+        self.btn22.bind(on_press=lambda *args: self.get_num(self.btn22.text, *args))
+        self.btn23.bind(on_press=lambda *args: self.get_num(self.btn23.text, *args))
+        self.btn24.bind(on_press=lambda *args: self.get_num(self.btn24.text, *args))
+        self.btn25.bind(on_press=lambda *args: self.get_num(self.btn25.text, *args))
+        self.btn26.bind(on_press=lambda *args: self.get_num(self.btn26.text, *args))
+        self.btn27.bind(on_press=lambda *args: self.get_num(self.btn27.text, *args))
+        self.btn28.bind(on_press=lambda *args: self.get_num(self.btn28.text, *args))
+        self.btn29.bind(on_press=lambda *args: self.get_num(self.btn29.text, *args))
+        self.btn30.bind(on_press=lambda *args: self.get_num(self.btn30.text, *args))
+        self.btn31.bind(on_press=lambda *args: self.get_num(self.btn31.text, *args))
+        self.btn32.bind(on_press=lambda *args: self.get_num(self.btn32.text, *args))
+        self.btn33.bind(on_press=lambda *args: self.get_num(self.btn33.text, *args))
+        self.btn34.bind(on_press=lambda *args: self.get_num(self.btn34.text, *args))
+        self.btn35.bind(on_press=lambda *args: self.get_num(self.btn35.text, *args))
+        self.btn36.bind(on_press=lambda *args: self.get_num(self.btn36.text, *args))
+        self.btn37.bind(on_press=lambda *args: self.get_num(self.btn37.text, *args))
+        self.btn38.bind(on_press=lambda *args: self.get_num(self.btn38.text, *args))
+        self.btn39.bind(on_press=lambda *args: self.get_num(self.btn39.text, *args))
+        self.btn40.bind(on_press=lambda *args: self.get_num(self.btn40.text, *args))
+        self.btn41.bind(on_press=lambda *args: self.get_num(self.btn41.text, *args))
+        self.btn42.bind(on_press=lambda *args: self.get_num(self.btn42.text, *args))
+
+        #self.get_text()
+
+    def create_buttons(self):
+        for i in self.char_list:
+            self.btn = Button(text= f"{i}", size= (dp(66.6), dp(50)), size_hint= (None, None), pos_hint= {"x": 200, "y": 10}, background_color= (1,0,0,1))
+
+
+            self.add_widget(self.btn)
+            #self.btn.bind(on_press= self.get_num)
+            #inc += 200
+            self.i_list.append(i)
+            self.btn_list.append(self.btn)
+
+        #return self.btn_list
+
+    def bind_buttons(self):
+        pass
+        #for l, m in enumerate(self.btn_list):
+            #n = m.text
+            #m.bind(on_press= lambda *args: self.get_num(n, *args))
+
+    def get_num(self, event, *args):
+
+        #self.ev = str(event)
+        #print(self.ev)
+        self.ids.click_input.text = self.event
+        #self.gh = ObjectProperty(self.ev)
+        #return self.gh
+
+    def get_text(self):
+        print(self.ev)
+        #super(Numbers(), self).__init__.ids.click_input.text = self.ev
+        #self.ids.click_input.text = self.ev
+
+        #for j, k in enumerate(self.char_list):
+
+            #print(self.btn_list[j].text)
+
+
+
+            #print(self.i_list[j])
+
+
+
+    #def numbers_on_calc(self):
+#Builder.load_file("surveyorcalculator.kv")
+class SurveyorCalculatorApp(App):
+    pass
+
+SurveyorCalculatorApp().run()
